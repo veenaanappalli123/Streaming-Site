@@ -1,35 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Watch Together</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-    <header class="navbar">
-        <h1>🎬 Watch Together</h1>
+
+    <header>
+        <h1>Watch Together</h1>
+        <p>Watch YouTube videos in sync with friends</p>
     </header>
 
-    <main class="main-layout">
-        <section class="video-area">
-            <div class="video-placeholder">
-                <p>YouTube Video Area</p>
+    <main class="container">
+
+        <!-- Video Section -->
+        <section class="video-section">
+            <div class="video-input">
+                ,
+                <input
+                type="text"
+                id="video-url"
+                placeholder="Paste YouTube URL here"
+                />
+                <button id="load-video-btn">Load Video</button>
             </div>
-            <div class="video-controls">
-                <button class="play-btn">▶ Play</button>
-                <button class="pause-btn">⏸ Pause</button>
+
+            <div id="player"></div>
+
+            <div class="controls">
+                <button id="create-room-btn">Create Room</button>
+                <button id="play-btn" class="play-btn">Play</button>
+                <button id="pause-btn" class="pause-btn">Pause</button>
+            </div>
+
+            <p class="room-info">
+                Room ID: <span id="room-id">Not created</span>
+            </p>
+        </section>
+
+        <!-- Chat Section -->
+        <section class="chat-section">
+            <h2>Chat</h2>
+
+            <div id="chat-box" class="chat-box"></div>
+
+            <div class="chat-input-area">
+                <input
+                    type="text"
+                    id="chat-input"
+                    placeholder="Type a message..."
+                />
+                <button id="send-btn" class="send-btn">Send</button>
             </div>
         </section>
 
-        <section class="chat-area">
-            <h2>Live Chat</h2>
-            <div class="chat-messages"></div>
-            <input class="chat-input" type="text" placeholder="Type a message...">
-            <button class="send-btn">Send</button>
-        </section>
     </main>
 
+    <!-- YouTube API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <!-- Frontend Logic -->
     <script src="script.js"></script>
+
 </body>
 </html>
