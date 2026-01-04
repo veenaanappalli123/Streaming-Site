@@ -1,67 +1,100 @@
-# Backend API Documentation
+# API Documentation
 
-This document describes the API exposed by the backend server.
+## What is an API?
+
+API stands for Application Programming Interface.
+
+An API allows different parts of a software system to communicate with each other in a structured and controlled way. Instead of accessing internal code directly, one part sends a request and receives a response.
+
+In this project, APIs are used to connect:
+- Frontend and backend
+- Backend and multiple users
+- Frontend and YouTube services
 
 ---
 
-## REST Endpoints
+## APIs Used in This Project
 
-### Create Room
+This project uses three main APIs:
+1. REST API (Backend)
+2. WebSocket API (Backend)
+3. YouTube IFrame API (External)
 
-**Endpoint:** `POST /create-room`
+Each API has a specific role.
 
-Creates a new watch room.
+---
 
-**Response:**
-```json
+## REST API (Backend)
+
+### POST /create-room
+
+This API endpoint is used to create a new watch room.
+
+### Purpose
+- Generate a unique room ID
+- Initialize room state on the backend
+
+### Request
+```http
+POST /create-room
+Response
+json
+Copy code
 {
-  "room_id": "string"
+  "room_id": "unique-room-id"
 }
+Why REST API is Used Here
+Room creation is a simple one-time operation
 
-_______________________________________________________________________________________
-WebSocket Endpoint
-WebSocket Connection
+REST APIs are easy to implement and understand
 
-Endpoint: /ws/{room_id}
+Suitable for request–response communication
 
-Clients connect to this endpoint to:
-1)synchronize video playback
-2)send and receive chat messages
-__________________________________________________________________________________________
+WebSocket API (Backend)
+Endpoint
+perl
+Copy code
+ws://<server>/ws/{room_id}
+Purpose
+WebSocket API is used for real-time communication between users in the same room.
 
-WebSocket Message Format
-All messages are sent as JSON objects.
-_______________________________________
-Video Control Messages:
+What It Handles
+Play video events
 
-Play video
+Pause video events
 
-{
-  "type": "play",
-  "time": 120
-}
+Video change events
 
-Pause video
+Chat messages
 
-{
-  "type": "pause",
-  "time": 135
-}
+Why WebSocket Is Used
+Keeps a persistent connection open
 
-Chat Message
-{
-  "type": "chat",
-  "user": "username",
-  "message": "Hello everyone"
-}
+Low latency communication
 
-______________________________________________________________________________________________
+Allows instant synchronization
 
-API Design Choices
+Ideal for real-time collaborative applications
 
-JSON was chosen for readability and simplicity.
-A single WebSocket connection handles both synchronization and chat.
-The backend does not validate video IDs, as videos are managed client-side.
+When one user performs an action, the backend broadcasts it to all users connected to the same room.
 
+YouTube IFrame API
+The frontend uses the YouTube IFrame API to control video playback.
 
+What It Is Used For
+Embedding YouTube videos
 
+Playing and pausing videos
+
+Seeking to specific timestamps
+
+Loading videos dynamically
+
+Why This API Is Required
+YouTube restricts direct video control
+
+Official API ensures proper usage
+
+Provides reliable playback control
+
+The backend does not directly interact with YouTube; all video control is handled on the frontend.

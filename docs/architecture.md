@@ -1,54 +1,107 @@
 # System Architecture
 
-This project follows a **client–server architecture** designed for real-time collaboration.
+## Overview
 
-The system is divided into three main components:
-- Frontend (client-side)
-- Backend (server-side)
-- External video provider (YouTube)
+This project is a “Watch Together” web application that allows multiple users to watch the same YouTube video in real time. All users stay synchronized using real-time communication.
 
-## High-Level Architecture
-Each user accesses the website through a web browser. The frontend embeds a YouTube video and connects to the backend using WebSockets.
+The system is designed using a **client–server architecture**, which means:
+- The frontend runs in the user’s browser
+- The backend runs on a server
+- Both communicate using defined communication methods
 
-The backend manages rooms and synchronizes events between connected users. Video streaming itself is handled entirely by YouTube.
+The architecture is kept simple and clear to make it easy to understand and explain.
 
-## Components Description ##
-### Frontend
-The frontend is responsible for:
-- Displaying the user interface
-- Embedding the YouTube video using the YouTube IFrame API
-- Sending playback and chat events to the backend
-- Receiving synchronization events from the backend
+---
 
-Technologies used:
-- HTML
-- CSS
-- JavaScript
+## Main Components
 
-### Backend
-The backend acts as the synchronization server. It:
-- Creates and manages rooms
-- Tracks connected users
-- Broadcasts synchronization events
-- Handles real-time chat messages
+The system has three main components:
 
-Technologies used:
-- Python
-- FastAPI
-- WebSockets
+1. Frontend (User Interface)
+2. Backend (Server Logic)
+3. External APIs (YouTube)
 
-The backend does **not** stream or store video content.
+Each component has a specific responsibility.
 
-### YouTube
-YouTube provides the video stream using the official YouTube IFrame API.  
-Each client loads the video independently, ensuring legality and scalability.
+---
 
-## Architectural Decisions
-- **WebSockets** were chosen for real-time, bidirectional communication.
-- **FastAPI** was selected for its simplicity and WebSocket support.
-- Video streaming was delegated to YouTube to avoid legal and technical complexity.
+## Frontend Architecture
 
-## Limitations
+The frontend is built using:
+- HTML for structure
+- CSS for layout and design
+- JavaScript for logic and interaction
 
-- The backend stores room data in memory (no persistence).
-- Perfect synchronization cannot be guaranteed due to network latency.
+The frontend runs entirely in the browser.
+
+### Frontend Responsibilities
+- Display buttons, inputs, and video player
+- Allow users to create rooms
+- Allow users to paste YouTube URLs
+- Control video playback (play, pause, change video)
+- Send user actions to the backend
+- Receive updates from the backend
+- Display chat messages
+
+The frontend **does not decide synchronization by itself**.  
+It follows instructions sent by the backend to stay in sync.
+
+---
+
+## Backend Architecture
+
+The backend is built using **FastAPI** and runs on a local server.
+
+### Backend Responsibilities
+- Create watch rooms
+- Generate unique room IDs
+- Manage WebSocket connections
+- Store room state in memory
+- Broadcast updates to all users in the same room
+
+Each room keeps track of:
+- Current video ID
+- Playback time
+- Play or pause state
+- Connected users
+
+Room data is stored in memory because this project focuses on real-time behavior rather than long-term storage.
+
+---
+
+## Communication Flow
+
+The communication happens in two steps:
+
+### Step 1: Room Creation (REST API)
+- Frontend sends a request to the backend
+- Backend creates a room
+- Backend returns a room ID
+
+### Step 2: Real-Time Synchronization (WebSocket)
+- Frontend connects to backend using WebSocket
+- User actions are sent to the backend
+- Backend broadcasts actions to all connected users
+- All users stay synchronized
+
+---
+
+## External API Usage
+
+The frontend uses the **YouTube IFrame API** to:
+- Embed YouTube videos
+- Control playback programmatically
+
+The backend does not interact with YouTube directly.
+
+---
+
+## Why This Architecture Was Chosen
+
+- Separates frontend and backend responsibilities
+- WebSockets enable real-time synchronization
+- REST API is simple and suitable for room creation
+- Easy to debug and explain for an academic project
+- Scalable to multiple users and rooms
+
+This architecture balances simplicity and functionality.
