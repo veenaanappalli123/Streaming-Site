@@ -7,18 +7,12 @@ The system is divided into three main components:
 - Backend (server-side)
 - External video provider (YouTube)
 
----
-
 ## High-Level Architecture
-
 Each user accesses the website through a web browser. The frontend embeds a YouTube video and connects to the backend using WebSockets.
 
 The backend manages rooms and synchronizes events between connected users. Video streaming itself is handled entirely by YouTube.
 
----
-
-## Components Description
-
+## Components Description ##
 ### Frontend
 The frontend is responsible for:
 - Displaying the user interface
@@ -30,8 +24,6 @@ Technologies used:
 - HTML
 - CSS
 - JavaScript
-
----
 
 ### Backend
 The backend acts as the synchronization server. It:
@@ -47,21 +39,14 @@ Technologies used:
 
 The backend does **not** stream or store video content.
 
----
-
 ### YouTube
 YouTube provides the video stream using the official YouTube IFrame API.  
 Each client loads the video independently, ensuring legality and scalability.
 
----
-
 ## Architectural Decisions
-
 - **WebSockets** were chosen for real-time, bidirectional communication.
 - **FastAPI** was selected for its simplicity and WebSocket support.
 - Video streaming was delegated to YouTube to avoid legal and technical complexity.
-
----
 
 ## Limitations
 
