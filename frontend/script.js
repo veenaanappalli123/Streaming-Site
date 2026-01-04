@@ -14,7 +14,7 @@ let isHost = true; // first user is host by default ,well deserved hehe
 
 // WebSocket connection
 function connectWebSocket() {
-    socket = new WebSocket(`ws://localhost:8000/ws/${roomId}`);
+    socket = new WebSocket(`ws://127.0.0.1:7777/ws/${roomId}`);
 
     socket.onopen = () => {
         console.log("Connected to WebSocket");
@@ -128,7 +128,7 @@ function displayChatMessage(user, message) {
 
 // Room initialization
 async function createRoom() {
-    const response = await fetch("http://localhost:8000/create-room", {
+    const response = await fetch("http://localhost:7777/create-room", {
         method: "POST"
     });
 

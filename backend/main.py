@@ -37,13 +37,31 @@ rooms: Dict[str, Dict] = {}
 def root():
     return {"message": "Backend running successfully"}
 
+import uuid
+
+# -----------------------------
+# Create room endpoint
+# -----------------------------
+@app.post("/create-room")
+def create_room():
+    room_id = str(uuid.uuid4())
+    rooms[room_id] = {
+        "video_id": None,
+        "timestamp": 0,
+        "is_playing": False,
+        "connections": []
+    }
+    return {"room_id": room_id}
+
 
 # -----------------------------
 # WebSocket for room sync + chat
 # -----------------------------
 @app.websocket("/ws/{room_id}")
 async def websocket_endpoint(websocket: WebSocket, room_id: str):
+    print(">>> WEBSOCKET ENDPOINT HIT:", room_id)
     await websocket.accept()
+
 
     # Create room if not exists
     if room_id not in rooms:
