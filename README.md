@@ -93,3 +93,16 @@ Event-driven programming
 API design and documentation
 Integration of third-party APIs
 
+
+
+
+
+contributers re welcome 
+This project is currently a functional prototype designed for learning real-time synchronization. In the future, it can be extended in several ways.
+First, the backend can be deployed to a cloud server so users from different networks can join from anywhere.
+Second, a database can be added to store room information, chat history, and user sessions persistently.
+Authentication can also be introduced so users can have accounts instead of anonymous access.
+Additionally, more advanced synchronization techniques and buffering strategies can be implemented to reduce latency and improve accuracy.
+Overall, the project provides a strong foundation that can be scaled into a more robust watch-together platform.”
+
+
